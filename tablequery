@@ -1,0 +1,37 @@
+1) to create invoice table query
+----------------------------------
+
+create table invoice(invoiceid int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+externalID varchar(20),
+createDate Date,
+updateDate Date,
+description varchar(256),
+customer_name varchar(100),
+customer_email varchar(100),
+marchantid int(30),
+amount varchar(20),
+currency varchar(20),
+status varchar(20),
+FOREIGN KEY (marchantid) REFERENCES user(userid));
+
+2) To create user table query
+
+
+create table user (userid int(30) not null auto_increment unique,emailid varchar(50) not null unique,salt varchar(256) not null,password varchar(256) not null,usertype varchar(10) not null,name varchar(20));
+
+3) To create Account Details table
+
+CREATE TABLE accountdetails (serialkey int(10) not null auto_increment unique,
+userid int(30),
+account_name varchar(100) not null,
+bank_name varchar(100) not null,
+branch  varchar(50) not null,
+acc_no varchar(50) not null,
+iban_no varchar(50) not null,
+swift_code varchar(50) not null,
+currency varchar(10) not null,PRIMARY KEY (serialkey),
+FOREIGN KEY (userid) REFERENCES user(userid));
+
+
+insert into accountdetails values(4,1,'ABC Consultancy Private Limited','Dubai Islamic Bank','Sheikh Road 3','097640239745224','AE440130084230227875201','DUIBAEADDE1','AED');
+

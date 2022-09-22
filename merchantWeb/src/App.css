@@ -1,0 +1,41 @@
+.navlogo{
+  width: 10px;
+  height: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+.barterlogo {
+  width: 200px;
+  height: 49px;
+  margin-left: 8px;
+}
+.loginlogo{
+   width: 20px;
+   height: 20px;
+   border-radius: 20px;
+}
+.createInvoice{
+  width: 100%;;
+  height: 70px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 20px;
+  border-color: gray;
+}
+
+.invoice-btn{
+  margin-right: 40px;
+}
+.invoice-heading {
+  margin-left: 40px;
+}
+
+.buttonform{
+    margin-left: 120px;
+}
+.table-data2{
+text-align: end;
+}

@@ -1,0 +1,13 @@
+.navbar{
+display: flex;
+flex-direction: row;
+align-items: flex-start;
+padding: 20px 72px;
+gap: 727px;
+position: absolute;
+width: 1440px;
+height: 77.94px;
+left: 0px;
+top: 0px;
+background: #FFFFFF;
+}

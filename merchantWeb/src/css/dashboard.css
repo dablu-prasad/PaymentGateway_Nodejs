@@ -1,0 +1,37 @@
+ul{
+   font-size: 18px;
+   font-weight:500;
+   list-style: none;
+    
+}
+.link{
+    text-decoration: none;
+    color: black;
+   
+}
+.link:hover{
+    color: #4211A3;
+}
+
+.sidebar{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    background-color: white;
+    border-radius: 100px;
+    align-items: center;
+    
+}
+.sidebar-inner{
+    display: flex;
+    margin-left: 20px;
+    align-items: center;
+}
+.sidebar:hover{
+    background-color: #DBCCFA;;
+}
+
+.sidebar-text{
+    margin-left: 5px;
+    margin-top: 10px;
+}

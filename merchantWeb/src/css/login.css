@@ -1,0 +1,81 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0px;
+    gap: 36px;
+    position: absolute;
+    width: 416px;
+    height: 540px;
+    left: 512px;
+    top: 229.95px;
+}
+
+.login-b1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 350px;
+    height: 48px;
+    background: #320D7D;
+    border-radius: 8px;
+    color: white;
+    border-style: none;
+}
+
+.login-fgtpass {
+    width: 336px;
+    height: 23px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: #1856E7;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    text-align: right;
+
+}
+
+.login-or {
+    width: 26px;
+    height: 27px;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 150%;
+    color: #000000;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    display: flex;
+    margin-top: 20px;
+    margin-left: 18px;
+}
+
+.login-or-line1 {
+    width: 150px;
+    height: 2px;
+    background: #D6D6D6;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+}
+
+.login-or-line2{
+    width: 144px;
+height: 2px;
+background: #D6D6D6;
+flex: none;
+order: 2;
+flex-grow: 0;
+}
+
+.login-b2{
+    
+}
