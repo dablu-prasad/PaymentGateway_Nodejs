@@ -1,9 +1,11 @@
-import { pool } from "../DBconn/data.js";
+
 import bcrypt from 'bcrypt'
+import {pool} from '../DBconn/data.js'
 import { catchAsyncErrors } from "../middleware/catchAsyncErrors.js";
 
 
-export const register = catchAsyncErrors(async (req, res, next) => {
+export const register = async (req, res, next) => {
+    try{
         const { name, emailId, password, usertype } = req.body;
         const salt = await bcrypt.genSalt(10);
         const secPass = await bcrypt.hash(password, salt);
@@ -21,4 +23,9 @@ export const register = catchAsyncErrors(async (req, res, next) => {
                 return res.status(200).json({ message: "Registered Successfully" });
             }
         })
-}) 
+    }
+    catch(error)
+    {
+        
+    }
+}

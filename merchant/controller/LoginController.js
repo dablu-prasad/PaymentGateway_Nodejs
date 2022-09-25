@@ -1,53 +1,75 @@
-import { pool } from "../DBconn/data.js";
+
 import bcrypt from 'bcrypt'
-import { generateToken } from "../utils/utils.js";
 import { catchAsyncErrors } from "../middleware/catchAsyncErrors.js";
 import jwt from "jsonwebtoken"
 import nodemailer from "nodemailer";
+import { sendToken } from "../utils/jwttoken.js";
+import {pool} from '../DBconn/data.js'
 
-export const login = catchAsyncErrors(async (req, res, next) => {
+export const login = async (req, res, next) => {
   const email = req.body.email;
   const pass = req.body.password;
-
+  console.log(req.session);
+  if (!email || !pass) {
+   res.status(400).send({message:"Please enter emailid and password"})
+  }
   pool.query(`select * from user WHERE emailid=?`, [email], (err, result, next) => {
     if (err) {
       return res.json(err);
     }
     if (result.length > 0) {
       if (bcrypt.compareSync(pass, result[0].password)) {
-        res.send({
-          email: result[0].emailid,
-          name: result[0].name,
-          userid: result[0].userid,
-          token: generateToken(result),
-        });
+        sendToken(result[0].emailid, result[0].name, result[0].userid, 200, res)
         return;
       }
     }
-
     res.status(401).send({ message: "invalid email or password" });
   }
   );
+};
+
+export const logout = catchAsyncErrors(async (req, res, next) => {
+  res.cookie("token", null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+  res.status(200).json({
+    success: true,
+    message: "Logged Out",
+  });
 });
 
 
 export const changeUserPassword = catchAsyncErrors(async (req, res) => {
-  const { password, password_confirmation } = req.body
-  if (password && password_confirmation) {
-    if (password !== password_confirmation) {
-      res.send({ "status": "failed", "message": "New Password and Confirm New Password doesn't match" })
-    } else {
-      const salt = await bcrypt.genSalt(10)
-      const newHashPassword = await bcrypt.hash(password, salt)
-
-      pool.query(`update user set salt=?,password=?  where userid=?`, [salt, newHashPassword, req.params.id], (err, results) => {
-        console.log(results)
-        return res.send({ "status": "success", "message": "Password changed succesfully" })
-      })
+  const { oldpassword,newpassword, newconfirmpassword} = req.body
+  const salt = await bcrypt.genSalt(10)
+  const newHashPassword = await bcrypt.hash(newpassword, salt)
+  pool.query(`select * from user WHERE userid=?`, [req.params.id], (err, result, feilds) => {
+    if (result.length > 0) {
+      console.log(result)    
+     if(bcrypt.compareSync(oldpassword, result[0].password))
+      {
+        if (newpassword && newconfirmpassword) {
+          if (newpassword !== newconfirmpassword) {
+            res.send({ "status": "failed", "message": "New Password and Confirm New Password doesn't match" })
+          } else {   
+            pool.query(`update user set salt=?,password=?  where userid=?`, [salt, newHashPassword, req.params.id], (err, results) => {
+              console.log(results)
+              return res.send({ "status": "success", "message": "Password changed succesfully" })
+            })
+          }
+        } else {
+          res.send({ "status": "failed", "message": "All Fields are Required" })
+        }
+      }
     }
-  } else {
-    res.send({ "status": "failed", "message": "All Fields are Required" })
-  }
+    else{
+      return res.status(403).send({message:"old password is wrong for change"})
+    }
+}
+);
+
+
 })
 
 // Forgot Password
@@ -112,7 +134,7 @@ export const resetpassword = catchAsyncErrors(async (req, res) => {
     try {
       const verify = jwt.verify(token, secret);
       if (verify) {
-        res.render("resetpass", { userid: verify.userID, status: "Not Verified"  });
+        res.render("resetpass", { userid: verify.userID, status: "Not Verified" });
         //return res.send({ "status": "ok", userid: verify.userID})
       }
 
@@ -148,16 +170,13 @@ export const resetpassword1 = catchAsyncErrors(async (req, res) => {
         } else {
           pool.query(`update user set salt=?,password=?  where userid=?`, [salt, newHashPassword, req.params.id], (err, results) => {
             console.log(results)
-            res.render("resetpass", { userid: verify.userID, status: "verified", "message": "Reset password succesfully"  });
-           //return res.send({ "status": "success", "message": "Reset password succesfully" })
+            res.render("resetpass", { userid: verify.userID, status: "verified", "message": "Reset password succesfully" });
           })
-
         }
-       
       } else {
         res.send({ "status": "failed", "message": "All Fields are Required" })
       }
-    
+
     } catch (error) {
       console.log(error);
       res.send("Not Verified");

@@ -5,6 +5,8 @@ export const generateToken = (user) => {
 }
 
 export const isAuth = (req, res, next) => {
+    // const {token} =req.cookies;
+    // console.log(token)
     const authorization = req.body.token||req.query.token||req.headers["authorization"];
     console.log(authorization)
     if (authorization) {
