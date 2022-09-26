@@ -4,14 +4,15 @@ import { catchAsyncErrors } from "../middleware/catchAsyncErrors.js";
 import jwt from "jsonwebtoken"
 import nodemailer from "nodemailer";
 import { sendToken } from "../utils/jwttoken.js";
-import {pool} from '../DBconn/data.js'
+import { pool } from '../DBconn/data.js'
 
 export const login = async (req, res, next) => {
   const email = req.body.email;
   const pass = req.body.password;
-  console.log(req.session);
+  // console.log(req.session.id);
+  // console.log(req.session);
   if (!email || !pass) {
-   res.status(400).send({message:"Please enter emailid and password"})
+    res.status(400).send({ message: "Please enter emailid and password" })
   }
   pool.query(`select * from user WHERE emailid=?`, [email], (err, result, next) => {
     if (err) {
@@ -41,35 +42,34 @@ export const logout = catchAsyncErrors(async (req, res, next) => {
 
 
 export const changeUserPassword = catchAsyncErrors(async (req, res) => {
-  const { oldpassword,newpassword, newconfirmpassword} = req.body
+  console.log(req.body);
+  const { oldpassword, newpassword, newconfirmpassword } = req.body
   const salt = await bcrypt.genSalt(10)
   const newHashPassword = await bcrypt.hash(newpassword, salt)
-  pool.query(`select * from user WHERE userid=?`, [req.params.id], (err, result, feilds) => {
+  pool.query(`select * from user WHERE userid=?`, [req.logindata.userid], (err, result, feilds) => {
     if (result.length > 0) {
-      console.log(result)    
-     if(bcrypt.compareSync(oldpassword, result[0].password))
+      if(oldpassword && newpassword && newconfirmpassword)
       {
-        if (newpassword && newconfirmpassword) {
-          if (newpassword !== newconfirmpassword) {
-            res.send({ "status": "failed", "message": "New Password and Confirm New Password doesn't match" })
-          } else {   
-            pool.query(`update user set salt=?,password=?  where userid=?`, [salt, newHashPassword, req.params.id], (err, results) => {
-              console.log(results)
-              return res.send({ "status": "success", "message": "Password changed succesfully" })
-            })
-          }
+      if (bcrypt.compareSync(oldpassword.toString(), result[0].password.toString())) {
+        if (newpassword !== newconfirmpassword) {
+          res.send({ "status": "failed", "message": "New Password and Confirm New Password doesn't match" })
         } else {
-          res.send({ "status": "failed", "message": "All Fields are Required" })
+          pool.query(`update user set salt=?,password=?  where userid=?`, [salt, newHashPassword, req.logindata.userid], (err, results) => {
+
+            return res.send({ "status": "success", "message": "Password changed succesfully" })
+          })
         }
       }
+      else {
+        res.send({ "status": "failed", "message": "old password is wrong" })
+      }
     }
-    else{
-      return res.status(403).send({message:"old password is wrong for change"})
+    else {
+      res.send({ "status": "failed1", "message": "All Fields are Required" })
     }
-}
-);
-
-
+  }
+ }
+  );
 })
 
 // Forgot Password

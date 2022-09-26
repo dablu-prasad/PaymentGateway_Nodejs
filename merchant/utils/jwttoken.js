@@ -1,7 +1,7 @@
 // Create Token and saving in cookie
 import session from 'express-session'
 import jwt from "jsonwebtoken"
-export const sendToken = (email,name,userid, statusCode,req, res) => {
+export const sendToken = (email,name,userid, statusCode, res) => {
     // const token = email.getJWTToken();
 
   const token=   jwt.sign({ email: email ,userid:userid}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE,});

@@ -51,10 +51,12 @@ const ForgotPassword = () => {
    }
 
   return (
-    <div >
+    <div className='container w-50' >
+
   <Form className='fgtpass-f1' onSubmit={handleforgetpass} >
+    <h3>Reset Password</h3><br/>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Please enter a email id:-</Form.Label>
+        <Form.Label>Enter Emailid:-</Form.Label>
         <Form.Control type="email" placeholder="Enter email"  onChange={(e)=>{setemail(e.target.value)}}/>
       </Form.Group>
       <Button variant="primary" type="submit">

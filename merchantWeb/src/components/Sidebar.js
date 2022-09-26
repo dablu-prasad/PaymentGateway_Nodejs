@@ -13,7 +13,7 @@ function Sidebar() {
    
         <ul>
           <li className="mt-3">
-            <Link className="link" to={"#"}>
+            <Link className="link" to={"/overview"}>
               <div className="sidebar">
                 <div className="sidebar-inner">
                   <HiOutlineViewBoards size={25} />
@@ -33,7 +33,7 @@ function Sidebar() {
             </Link>
           </li>
           <li className="mt-5">
-            <Link className="link" to={"#"}>
+            <Link className="link" to={"/balance"}>
               <div className="sidebar">
                 <div className="sidebar-inner">
                   <HiOutlineCash size={25} />
@@ -53,7 +53,7 @@ function Sidebar() {
             </Link>
           </li>
           <li className="mt-5">
-            <Link className="link" to={"#"}>
+            <Link className="link" to={"/transection"}>
               <div className="sidebar">
                 <div className="sidebar-inner">
                   <HiOutlineCurrencyDollar size={25} />
@@ -63,7 +63,7 @@ function Sidebar() {
             </Link>
           </li>
           <li className="mt-5">
-            <Link className="link" to={"#"}>
+            <Link className="link" to={"/support"}>
               <div className="sidebar">
                 <div className="sidebar-inner">
                   <CgSupport size={25} />

@@ -5,7 +5,7 @@ import  jwt from 'jsonwebtoken';
 export const auth= catchAsyncErrors(async(req,res,next)=>{
 //   console.log(req.cookies);
 //    const {token}= req.cookies; 
-console.log(req.session);
+// console.log(req.session);
 const {token}= req.cookies; 
    if(!token)
    {

@@ -51,7 +51,7 @@ function Login() {
           <button className='login-b1' type="submit">
             Log in
           </button>
-          <div style={{ textAlign: 'center', marginTop: '10px' }}><Form.Text className='text-muted' >Don't have an account? <Link to={'#'} style={{ textDecoration: 'none' }}>Create one</Link></Form.Text></div>
+          <div style={{ textAlign: 'center', marginTop: '10px' }}><Form.Text className='text-muted' >Don't have an account? <Link to={'/register'} style={{ textDecoration: 'none' }}>Create one</Link></Form.Text></div>
           <div className='login-or'>
             <hr className='login-or-line1' /><p> OR</p>  <hr className='login-or-line2' />
           </div>

@@ -1,0 +1,17 @@
+.acc-tab-border-over{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px;
+    isolation: isolate;
+    width: 100%;
+    height: 134px;
+    border: 2px solid #D6D6D6;
+    border-radius: 16px;
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin-left: 14px;
+    }
+    

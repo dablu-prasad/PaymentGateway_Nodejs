@@ -27,7 +27,8 @@ function Createinvoice() {
      //   const id =  localStorage.getItem('UserInfo')?JSON.parse(localStorage.getItem('UserInfo')):[];
         Axios({
             method: 'get',
-            url: `/invoice/invoicelist/${userInfo.id}`,
+           // url: `/invoice/invoicelist/${userInfo.id}`,
+           url: `/invoice/invoicelist`
         }).then(function (res) {
             setinvoice(res.data)
 

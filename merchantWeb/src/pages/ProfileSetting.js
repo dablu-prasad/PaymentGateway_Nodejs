@@ -4,8 +4,26 @@ import { Col, Row } from 'react-bootstrap'
 import Sidebar from '../components/Sidebar'
 import { Link, useNavigate } from 'react-router-dom'
 import '../css/settingscreen.css';
-
+import Axios from 'axios'
+import { toast } from 'react-toastify'
+import { getError } from '../utils/utils'
 function ProfileSetting() {
+
+  const [settingdetails, setsettingdetails] = useState('');
+
+  console.log(settingdetails);
+  useEffect(() => {
+    Axios({
+      method: 'get',
+      url: `/users/setting`
+    }).then(function (res) {
+      setsettingdetails(res.data)
+    })
+      .catch(function (error) {
+        toast.error(getError(error));
+      });
+  }, [])
+
 
   return (
     <div >
@@ -17,6 +35,8 @@ function ProfileSetting() {
           <Col>
             <Row>
               <Col>
+                {console.log(settingdetails[0]?.address)}
+
                 <div className='container'>
 
                   <Table className='setscreen-t-t1'>
@@ -27,31 +47,41 @@ function ProfileSetting() {
 
                     <tr className='setscreen-t2'>
                       <td>Bussiness Name</td>
-                      <td>Mile High Gear</td>
+                      <td>{settingdetails[0]?.bussiness_name}</td>
                     </tr>
                     <tr className='setscreen-t2'>
                       <td>Website</td>
-                      <td>www.milehighgear.com</td>
+                      <td>{settingdetails[0]?.website}</td>
                     </tr>
                     <tr className='setscreen-t2'>
                       <td>Contect Person</td>
-                      <td>Tejas Hinduja</td>
+                      <td>{settingdetails[0]?.name}</td>
                     </tr>
                     <tr className='setscreen-t2'>
                       <td>Email</td>
-                      <td>tejas@milehighgear.com</td>
+                      <td>{settingdetails[0]?.emailid}</td>
                     </tr>
                     <tr className='setscreen-t2'>
                       <td>Address</td>
-                      <td>Office 901, Al-Boursha Heights, Al Qouz, Dubai</td>
+                      <td>{settingdetails[0]?.address}</td>
                     </tr>
                     <tr className='setscreen-t2'>
                       <td>Country</td>
-                      <td>United Arab Emirates</td>
+                      <td>{settingdetails[0]?.country}</td>
                     </tr>
                     <tr className='setscreen-t3'>
                       <td>Verification status</td>
-                      <td><div style={{width:'100%',height:'88px'}}><p style={{textAlign:'right',marginBottom:'0px'}}>*pending </p><p className='text-secondary' style={{textAlign:'left' , marginLeft:'5px', fontSize:'15px'}}>Know Your Bussiness(KYB) is pending.Please mail us your documents if not done already to start collecting payments. </p> </div></td>
+                      {settingdetails[0]?.verification_status==='0'?
+                      <td>
+                        <div style={{ width: '100%', height: '88px' }}>
+                          <p style={{ textAlign: 'right', marginBottom: '0px' }}>
+                            *pending </p>
+                          <p className='text-secondary' style={{ textAlign: 'left', marginLeft: '5px', fontSize: '15px' }}>
+                            Know Your Bussiness(KYB) is pending.Please mail us your documents if not done already to start collecting payments.
+                          </p>
+                        </div>
+                      </td>
+                      :<p>Success</p>}
                     </tr>
 
 
@@ -66,7 +96,7 @@ function ProfileSetting() {
 
                     <tr className='setscreen-t2'>
                       <td>Username</td>
-                      <td>tejas@milehighgear.com (Google)</td>
+                      <td>{settingdetails[0]?.emailid} (Google)</td>
                     </tr>
                     <tr className='setscreen-t3'>
                       <td>Password</td>

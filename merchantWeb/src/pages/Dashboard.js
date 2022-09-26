@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiOutlineCash } from "react-icons/hi";
 import { HiOutlineViewBoards} from "react-icons/hi";
 import {CgSupport} from 'react-icons/cg'
@@ -10,6 +10,10 @@ import {AiOutlineSetting} from 'react-icons/ai'
 import { BsBook  } from "react-icons/bs";
 import "../css/dashboard.css";
 const Dashboard = () => {
+const navigate=useNavigate("");
+  useEffect((err)=>{
+    navigate("/overview")
+  },[])
   
   return (
     <div className="mt-4">
@@ -17,7 +21,7 @@ const Dashboard = () => {
         <Col xs="4" lg={3} md={4} sm={2}>
           <ul>
             <li className="mt-3">
-              <Link className="link" to={"#"}>
+              <Link className="link" to={"/overview"}>
                 <div className="sidebar">
                   <div className="sidebar-inner">
                     <HiOutlineViewBoards size={25} />
@@ -37,7 +41,7 @@ const Dashboard = () => {
               </Link>
             </li>
             <li className="mt-5">
-              <Link className="link" to={"#"}>
+              <Link className="link" to={"/balance"}>
                 <div className="sidebar">
                   <div className="sidebar-inner">
                     <HiOutlineCash size={25} />
@@ -47,7 +51,7 @@ const Dashboard = () => {
               </Link>
             </li>
             <li className="mt-5">
-              <Link className="link" to={"#"}>
+              <Link className="link" to={"/account"}>
                 <div className="sidebar">
                   <div className="sidebar-inner">
                     <BsBook size={22} />
@@ -57,7 +61,7 @@ const Dashboard = () => {
               </Link>
             </li>
             <li className="mt-5">
-              <Link className="link" to={"#"}>
+              <Link className="link" to={"/transection"}>
                 <div className="sidebar">
                   <div className="sidebar-inner">
                     <HiOutlineCurrencyDollar size={25} />
@@ -67,7 +71,7 @@ const Dashboard = () => {
               </Link>
             </li>
             <li className="mt-5">
-              <Link className="link" to={"#"}>
+              <Link className="link" to={"/support"}>
                 <div className="sidebar">
                   <div className="sidebar-inner">
                     <CgSupport size={25} />
@@ -77,7 +81,7 @@ const Dashboard = () => {
               </Link>
             </li>
             <li className="mt-5">
-              <Link className="link" to={"#"}>
+              <Link className="link" to={"/setting"}>
                 <div className="sidebar">
                   <div className="sidebar-inner">
                     <AiOutlineSetting size={25} />
@@ -88,9 +92,9 @@ const Dashboard = () => {
             </li>
           </ul>
         </Col>
-        <Col xs="8" sm={10} md={8} lg={9} style={{ backgroundColor: "pink" }}>
+        {/* <Col xs="8" sm={10} md={8} lg={9} style={{ backgroundColor: "pink" }}>
           invoice
-        </Col>
+        </Col> */}
       </Row>
     </div>
   );

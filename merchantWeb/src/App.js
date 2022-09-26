@@ -22,6 +22,11 @@ import { Logout } from './services/action/action';
 import { useDispatch, useSelector } from 'react-redux';
 import ForgotPassword from './pages/ForgotPassword';
 import ChangePassword from './pages/ChangePassword';
+import SupportPage from './pages/SupportPage';
+import AllTransection from './pages/AllTransection';
+import BalancePage from './pages/BalancePage';
+import OverviewPage from './pages/OverviewPage';
+import RegistrationPage from './pages/RegistrationPage';
 function App() {
   const[name,setname]=useState();
   const userInfo=useSelector((state)=>state.userreducer.userInfo);
@@ -80,6 +85,11 @@ function App() {
       <Route exact path="/invoicedetail/:id" element={<InvoiceDetail/>}/>
       <Route exact path="/forgotpassword" element={<ForgotPassword/>}/>
       <Route exact path="/changepassword" element={<ChangePassword/>}/>
+      <Route exact path="/support" element={<SupportPage/>}/>
+      <Route exact path="/transection" element={<AllTransection/>}/>
+      <Route exact path="/balance" element={<BalancePage/>}/>
+      <Route exact path="/overview" element={<OverviewPage/>}/>
+      <Route exact path="/register" element={<RegistrationPage/>}/>
         </Routes>        
         </Container>
         </main>
