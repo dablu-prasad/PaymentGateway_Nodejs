@@ -11,9 +11,10 @@ import swal from 'sweetalert';
 function RegistrationPage() {
   const [value, setValue] = useState('')
   const [usertype, setusertype] = useState('')
-  const [imageurl, setimage] = useState('')
+  const [image, setimage] = useState({})
   const options = useMemo(() => countryList().getData(), [])
   const navigate = useNavigate();
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -23,36 +24,33 @@ function RegistrationPage() {
     website: "",
     address: "",
   })
-  console.log(form);
-  console.log(usertype);
- 
+
   const changeHandler = value => {
     setValue(value)
   }
-  
-  const uploadimg= (e)=>{
-    if(e.target && e.target.files[0])
-    {
-      const formData = new FormData();      
-      formData.append('file',e.target.files[0])
-      for (let obj of formData) {
-        setimage(obj);
-      }
-  }
+
+  const uploadimg = (e) => {
+    setimage(e.target.files[0])
   }
   const handleregister = async (e) => {
-
     e.preventDefault();
-    console.log(imageurl);
+
+    var formData = new FormData();
+    formData.append('photo', image)
+    formData.append('name', form.name)
+    formData.append('email', form.email)
+    formData.append('password', form.password)
+    formData.append('confirmpassword', form.confirmpassword)
+    formData.append('bussname', form.bussname)
+    formData.append('website', form.website)
+    formData.append('address', form.address)
+    formData.append('country', value.label)
+    formData.append('usertype', usertype)
+
     await Axios({
       method: 'post',
       url: '/users/register',
-      data: {
-        form,
-        usertype,
-        value,
-        imageurl
-      },
+      data: formData,
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -77,47 +75,45 @@ function RegistrationPage() {
       });
   }
 
-
-
   return (
     <div className='container w-50' style={{ marginBottom: '50px' }}>
       <Form onSubmit={handleregister}>
         <h3>Registration Form</h3><br />
         <Form.Group className="mb-3">
           <Form.Label>Name</Form.Label>
-          <Form.Control type="text" placeholder="Enter merchant name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+          <Form.Control type="text" placeholder="Enter merchant name" name="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
         </Form.Group>
         <Form.Group className="mb-3" >
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+          <Form.Control type="email" placeholder="Enter email" name="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3" >
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
+          <Form.Control type="password" placeholder="Password" name="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Confirm Password</Form.Label>
-          <Form.Control type="password" placeholder="Confirm Password" value={form.confirmpassword} onChange={(e) => setForm({ ...form, confirmpassword: e.target.value })} />
+          <Form.Control type="password" placeholder="Confirm Password" name="confirmpassword" value={form.confirmpassword} onChange={(e) => setForm({ ...form, confirmpassword: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Bussiness Name</Form.Label>
-          <Form.Control type="text" placeholder="Enter Bussiness name" value={form.bussname} onChange={(e) => setForm({ ...form, bussname: e.target.value })} />
+          <Form.Control type="text" placeholder="Enter Bussiness name" name="bussname" value={form.bussname} onChange={(e) => setForm({ ...form, bussname: e.target.value })} />
         </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Website</Form.Label>
-          <Form.Control type="text" placeholder="Enter website name" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} />
+          <Form.Control type="text" placeholder="Enter website name" name="website" value={form.website} onChange={(e) => setForm({ ...form, website: e.target.value })} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Address</Form.Label>
-          <Form.Control type="text" placeholder="Enter address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
+          <Form.Control type="text" placeholder="Enter address" name="address" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} />
         </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Country</Form.Label>
-          <Select options={options} value={value} onChange={changeHandler} />
+          <Select options={options} name="country" value={value} onChange={changeHandler} />
         </Form.Group>
 
         <Form.Group className="mb-3">
@@ -125,20 +121,20 @@ function RegistrationPage() {
           <div class="form-check">
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1" value='merchant' onChange={(e) => setusertype(e.target.value)} />
             <label class="form-check-label" for="flexRadioDefault1">
-             merchant
+              merchant
             </label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value='user' onChange={(e) => setusertype(e.target.value)}/>
+            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" value='user' onChange={(e) => setusertype(e.target.value)} />
             <label class="form-check-label" for="flexRadioDefault2">
-             user
+              user
             </label>
           </div>
         </Form.Group>
         <Form.Group className="mb-3">
           <div>
             <h4>Upload Photo</h4>
-            <input type="file"  name='img' onChange={(e)=> uploadimg(e)} />
+            <input type="file" name='file' onChange={uploadimg} />
           </div>
         </Form.Group>
 

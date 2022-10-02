@@ -6,7 +6,7 @@ import {
   Routes
 } from "react-router-dom";
 import Dashboard from './pages/Dashboard';
-import { ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Navbar,NavDropdown,Nav,Container} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap'
@@ -27,12 +27,31 @@ import AllTransection from './pages/AllTransection';
 import BalancePage from './pages/BalancePage';
 import OverviewPage from './pages/OverviewPage';
 import RegistrationPage from './pages/RegistrationPage';
+import Axios from 'axios';
+import { getError } from './utils/utils';
+window.Buffer = require('buffer/').Buffer;
+
 function App() {
   const[name,setname]=useState();
+  const [logoutimg,setlogoutimg]=useState();
   const userInfo=useSelector((state)=>state.userreducer.userInfo);
   console.log(name?.name);
+
+  const base64String=null;
  useEffect(()=>{
   setname(localStorage.getItem('UserInfo')?JSON.parse(localStorage.getItem('UserInfo')):[])
+
+  Axios({
+    method: 'get',
+    url: `/users/profileimage`,
+  }).then(function (res) {
+    setlogoutimg(res.data)  
+    console.log(res.data);
+  
+  })
+    .catch(function (error) {
+      toast.error(getError(error));
+    });
  },[])
 
  const dispatch=useDispatch();
@@ -40,6 +59,10 @@ function App() {
    dispatch(Logout())
     localStorage.removeItem('UserInfo')
   }
+
+
+
+  
   return (
     <Router>
     <div className="App">
@@ -58,16 +81,26 @@ function App() {
               <img className="barterlogo " src="barterpaylogo.png" alt="logo"></img>
             </Navbar.Brand>
           </LinkContainer>
+          
           <Nav className="mb-2 px-5">
-          {/* <Nav.Link href="#home"><img className="loginlogo" src="barterpaylogo.png" alt=""/></Nav.Link> */}
-           
-
-                       {userInfo?( <NavDropdown title={userInfo?.name}  id="basic-nav-dropdown"> 
+                       {userInfo?
+                        //  logoutimg.map((singleData)=>{
+                        //   console.log(singleData.images.data);
+                        //   base64String = btoa(String.fromCharCode(...new Uint8Array(singleData.images.data))) 
+                       ( 
+                              
+                        <>         
+                        <Nav.Link href="#home"><img className="loginlogo" src='' alt=""/></Nav.Link>
+                       <NavDropdown title={userInfo?.name}  id="basic-nav-dropdown"> 
               <NavDropdown.Item className="navitem"> <Link className="dropdown-item"
                 to='/'
                 onClick={signouthandler}
                 ><BiLogIn/> Logout</Link></NavDropdown.Item>            
-            </NavDropdown>): null}  
+            </NavDropdown>
+            </>
+            )
+          //  })
+            : null}  
           </Nav>
         </Container>
       </Navbar>
