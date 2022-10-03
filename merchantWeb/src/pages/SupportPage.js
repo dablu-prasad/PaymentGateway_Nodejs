@@ -5,8 +5,7 @@ import Sidebar from '../components/Sidebar'
 import '../css/accountdetail.css';
 
 function SupportPage() {
-     
-
+    
     return (
         <div >
             <Container fluid>

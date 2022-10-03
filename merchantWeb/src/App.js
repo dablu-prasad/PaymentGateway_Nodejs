@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Link,
   Route,
-  Routes
+  Routes,
+  useNavigate
 } from "react-router-dom";
 import Dashboard from './pages/Dashboard';
 import { toast, ToastContainer } from 'react-toastify';
@@ -33,6 +34,7 @@ window.Buffer = require('buffer/').Buffer;
 
 function App() {
   const[name,setname]=useState();
+  // const navigate = useNavigate();
   const [logoutimg,setlogoutimg]=useState();
   const userInfo=useSelector((state)=>state.userreducer.userInfo);
   console.log(name?.name);
@@ -47,17 +49,19 @@ function App() {
   }).then(function (res) {
     setlogoutimg(res.data)  
     console.log(res.data);
-  
+    // navigate('/');
   })
     .catch(function (error) {
       toast.error(getError(error));
     });
+
+    
  },[])
 
  const dispatch=useDispatch();
   const signouthandler=()=>{
-   dispatch(Logout())
-    localStorage.removeItem('UserInfo')
+    dispatch(Logout())
+  localStorage.removeItem('UserInfo')
   }
 
 

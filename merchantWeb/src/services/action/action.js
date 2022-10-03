@@ -27,6 +27,15 @@ export const login = ({email,password})=>{
   }
  export const Logout=()=>{
    return (dispatch)=>{
+    axios({
+      method: 'get',
+      url: `/users/logout`,
+    }).then(function (res) {
+    })
+      .catch(function (error) {
+        toast.error(getError(error));
+      });
+
      dispatch({type:"LOG_OUT"})
      localStorage.removeItem("UserInfo")
    }
