@@ -2,14 +2,10 @@
 import bcrypt from 'bcrypt'
 import {pool} from '../DBconn/data.js'
 
-
-
 export const register = async (req, res, next) => {
     try{       
         const user=req.body;
         const imageurl=req.file;
-        console.log(user);       
-        console.log(imageurl.filename);
         const salt = await bcrypt.genSalt(10);
         const secPass = await bcrypt.hash(user.password, salt);
         pool.query(`select emailid from user WHERE emailid=?`, [user.email], (err, result, feilds) => {
@@ -51,8 +47,7 @@ export const settingdetail = async (req, res, next) => {
             return res.json(err);
         }
         return res.send( result )
-        console.log(result)
-   
+        console.log(result)   
     })
 }
 

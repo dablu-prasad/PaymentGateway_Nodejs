@@ -1,28 +1,83 @@
-1) to create invoice table query
+1) To create user table query
+
+first create serialkey with uniquekey
+-----------------------------------------
+tablename:- serialkey_user_tbl    with unique and auto_insertment
+
+
+second :- create table with serialkey with BAR prefix in username
+------------
+
+third:-  create table
+-----------------
+
+create table user (userid varchar(15) not null  unique,
+                   emailid varchar(50) not null unique,
+                   salt varchar(256) not null,
+                   password varchar(256) not null,
+                   usertype varchar(10) not null,
+                   name varchar(20),
+                   bussiness_name varchar(100),
+                   website varchar(100), 
+                   address varchar(100), 
+                   country varchar(100), 
+                   verification_status varchar(100), 
+                   images   LONGBLOB,
+                   PRIMARY KEY(`userid`)
+                  );
+
+fourth :- add trigger in user table with serialkey
+-------------------------------------------
+
+BEGIN
+   INSERT INTO serialkey_user_tbl VALUES (NULL);
+   SET NEW.userid=CONCAT("BAR_",LPAD(LAST_INSERT_ID(),10,"0"));
+END
+
+
+
+
+
+
+2) to create invoice table query
 ----------------------------------
 
-create table invoice(invoiceid int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+first create serialkey with uniquekey
+-----------------------------------------
+tablename:- serialkey_invoiceid_tbl    with unique and auto_insertment
+
+
+second create table invoice
+-------------------------
+
+create table invoice(invoiceid varchar(15) NOT NULL PRIMARY KEY,
 externalID varchar(20),
 createDate Date,
 updateDate Date,
 description varchar(256),
 customer_name varchar(100),
 customer_email varchar(100),
-marchantid int(30),
+marchantid varchar(15),
 amount varchar(20),
 currency varchar(20),
 status varchar(20),
 FOREIGN KEY (marchantid) REFERENCES user(userid));
 
-2) To create user table query
 
+third create invoiceid trigger
+--------------------------------------
 
-create table user (userid int(30) not null auto_increment unique,emailid varchar(50) not null unique,salt varchar(256) not null,password varchar(256) not null,usertype varchar(10) not null,name varchar(20));
+BEGIN
+   INSERT INTO serialkey_invoiceid_tbl VALUES (NULL);
+   SET NEW.invoiceid=CONCAT("INV",LPAD(LAST_INSERT_ID(),10,"0"));
+END
+
 
 3) To create Account Details table
+-----------------------------------------
 
 CREATE TABLE accountdetails (serialkey int(10) not null auto_increment unique,
-userid int(30),
+userid varchar(15),
 account_name varchar(100) not null,
 bank_name varchar(100) not null,
 branch  varchar(50) not null,
@@ -31,7 +86,6 @@ iban_no varchar(50) not null,
 swift_code varchar(50) not null,
 currency varchar(10) not null,PRIMARY KEY (serialkey),
 FOREIGN KEY (userid) REFERENCES user(userid));
-
 
 insert into accountdetails values(4,1,'ABC Consultancy Private Limited','Dubai Islamic Bank','Sheikh Road 3','097640239745224','AE440130084230227875201','DUIBAEADDE1','AED');
 
