@@ -4,8 +4,6 @@ import { getprofileimage, register, settingdetail } from '../controller/Register
 import { auth } from '../middleware/auth.js';
 import { uploadImage } from '../middleware/upload.js';
 
-
-
 const userRoute =  express.Router();
 userRoute.post('/login',login);
 userRoute.get('/logout',logout);

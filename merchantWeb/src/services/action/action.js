@@ -1,7 +1,12 @@
 import axios from "axios";
+import jsCookies from "js-cookies";
 import { toast } from "react-toastify";
+import SetCookies from "../../cookies/setCookies";
+import jwt_decode from "jwt-decode";
 import { getError } from "../../utils/utils";
+import Cookies from 'universal-cookie';
 export const login = ({email,password})=>{
+  
     return (dispatch)=>{
 
      axios({
@@ -16,7 +21,7 @@ export const login = ({email,password})=>{
         }
       }).then(function (res) {
         console.log(res.data);
-           localStorage.setItem('UserInfo',JSON.stringify({token:res.data.token,name:res.data.name,id:res.data.userid}))
+           localStorage.setItem('UserInfo',JSON.stringify({name:res.data.name}))
           
            dispatch({type:"LOG_IN" ,payload:{token:res.data.token,name:res.data.name,id:res.data.userid}})
       })

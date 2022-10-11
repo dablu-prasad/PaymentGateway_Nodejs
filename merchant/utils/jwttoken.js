@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 export const sendToken = (email,name,userid, statusCode, res) => {
     // const token = email.getJWTToken();
 
-  const token=   jwt.sign({ email: email ,userid:userid}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE,});
+  const token=   jwt.sign({ name: name ,userid:userid}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE,});
   
    // options for cookie
     const options = {
@@ -19,7 +19,7 @@ export const sendToken = (email,name,userid, statusCode, res) => {
       email,
       name,
       userid,
-      token,
+      token
     });
 
   };
